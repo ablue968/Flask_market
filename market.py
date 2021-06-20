@@ -6,16 +6,15 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///market.db'
 db=SQLAlchemy(app)
 
-class Item(db.Model):
-    ID = db.Column(db.Integer(), primary_key=True)
-    Name = db.Column(db.String(length=30), nullable=False, unique=True)
-    Price = db.Column(db.Integer(), nullable=False)
-    Director = db.Column(db.String(length=12), nullable=False, unique=True)
-    Description = db.Column(db.String(length=1024), nullable=False, unique=True)
-
+class Movie(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(length=30), nullable=False, unique=True)
+    box_office = db.Column(db.Integer(), nullable=False)
+    director = db.Column(db.String(length=12), nullable=False, unique=True)
+    description = db.Column(db.String(length=1024), nullable=False, unique=True)
 
     def __repr__(self):
-        return f'Item {self.Name}'
+        return f'Movie {self.name}'
 
 
 
