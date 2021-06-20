@@ -11,22 +11,22 @@
                 <tr class="text-center">
                     <th scope="col">ID</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Barcode</th>
-                    <th scope="col">Price</th>
-                    <th scope="col" ">Options</th>
+                    <th scope="col">Box Office</th>
+                    <th scope="col">Director</th>
+                    <th scope="col">Options</th>
                 </tr>
             </thead>
 
            <tbody class="text-center">
-                {% for item in items %}
+                {% for movie in movies %}
                   <tr>
-                      <th scope="row">{{item.id}}</th>
-                      <td>{{item.name}}</td>
-                      <td>{{item.barcode}}</td>
-                      <td>{{item.price}}</td>
+                      <th scope="row">{{movie.id}}</th>
+                      <td>{{movie.name}}</td>
+                      <td>${{movie.box_office}}</td>
+                      <td>{{movie.director}}</td>
                       <td>
                         <button type="button" class="btn btn-outline-info">More Info</button>
-                        <button type="button" class="btn btn-outline-success m-1">Purchase</button>
+                        <button type="button" class="btn btn-outline-success m-1">Rent movie</button>
                       </td>
                   </tr>
                 {% endfor %}
