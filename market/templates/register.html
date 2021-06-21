@@ -4,10 +4,60 @@
 {%endblock%}
 
 {% block content %}
-  <div class="container">
-    <form method="POST" class="form-register">
-        {{ form.username.label() }}
-        {{ form.username(class="form-control", placeholder=" User name")}}
-    </form>
-  </div>
+  <body class="text-center">
+    <div class="container mt-5">
+      <form method="POST" class="form-register">
+
+        {{ form.hidden_tag() }}
+        
+        <img class="mb-4" src="https://seeklogo.com/images/M/movie-time-cinema-logo-8B5BE91828-seeklogo.com.png"/> 
+        
+        <h1 class="h3 mb-3 font-weight-normal">
+          Please create your Account
+        </h1>
+
+        <div class="row mb-2 d-flex justify-content-center">
+          <div class="col-2 p-0 d-flex flex-row-reverse">
+            {{ form.username.label(class="my-auto") }}
+          </div>
+          <div class="col-6">
+            {{ form.username(class="form-control", placeholder=" User name")}}
+          </div>
+        </div>
+
+        <div class="row mb-2 d-flex justify-content-center">
+          <div class="col-2 p-0 d-flex flex-row-reverse">
+            {{ form.email.label(class="my-auto") }}
+          </div>
+          <div class="col-6">
+            {{ form.email(class="form-control", placeholder=" Email ")}}
+          </div>
+        </div>
+
+        <div class="row mb-2 d-flex justify-content-center">
+          <div class="col-2 p-0 d-flex flex-row-reverse">
+            {{ form.password1.label(class="my-auto") }}
+          </div>
+          <div class="col-6">
+            {{ form.password1(class="form-control", placeholder=" Password ")}}
+          </div>
+        </div>
+
+        <div class="row mb-2 d-flex justify-content-center">
+          <div class="col-2 p-0 d-flex flex-row-reverse">
+            {{ form.password2.label(class="my-auto") }}
+          </div>
+          <div class="col-6">
+            {{ form.password2(class="form-control", placeholder=" Confirm Password ")}}
+          </div>
+        </div>
+        <br/>
+
+        {{ form.submit(class="btn btn-primary btn-lg") }}
+      
+      </form>
+    
+    </div>
+  
+  </body>
 {% endblock %}
