@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}
+  Login Page
+{%endblock%}
+
+{% block content %}
+    <div class="container mt-3 text-center">
+        <form method="POST" class="form-signin">
+
+            {{ form.hidden_tag() }}
+
+            <img class="mb-4" src="https://image.shutterstock.com/image-vector/welcome-cinema-neon-sign-popcorn-260nw-1178142151.jpg" alt="">
+            <h1 class="h3 mb-3 font-weight-normal">
+                Please Login
+            </h1>
+
+            <br/>
+
+            <div class="row mb-2 d-flex justify-content-center">
+                <div class="col-2 p-0 d-flex flex-row-reverse">
+                    {{ form.username.label(class="my-auto") }}
+                </div>
+                <div class="col-4">
+                    {{ form.username(class="form-control", placeholder="User Name") }}
+                </div>
+            </div>
+
+            <div class="row mb-2 d-flex justify-content-center">
+                <div class="col-2 p-0 d-flex flex-row-reverse">
+                    {{ form.password.label(class="my-auto") }}
+                </div>
+                <div class="col-4">
+                    {{ form.password(class="form-control", placeholder=" Password")}}
+                </div>
+            </div>
+
+            <br/>
+
+            <div class="mb-3 d-flex justify-content-center">
+                <a class="my-auto mr-5" href="{{ url_for('register_page') }}">Do not have an account?</a>
+                {{ form.submit(class="btn btn-primary btn-lg mb-4 my-auto") }}
+            </div>
+
+            
+
+
+        </form>
+    </div>
+{% endblock %}
