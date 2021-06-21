@@ -1,5 +1,6 @@
 from sqlalchemy.orm import backref
 from market import db
+from market import bcrypt
 
 class User(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
@@ -9,6 +10,13 @@ class User(db.Model):
     budget = db.Column(db.Integer(), nullable=False, default=5)
     movies = db.relationship('Movie', backref='owned_user', lazy=True)
 
+    @property
+    def password(self):
+        return self.password
+
+    @password.setter
+    def password(self, plain_text_password):
+        self.password_hash = bcrypt.generate_password_hash(plain_text_password).decode('utf-8')
 
 
 
