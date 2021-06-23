@@ -30,14 +30,32 @@
               <a class="nav-link" href="{{ url_for('market_page') }}">Market</span></a>
             </li>
           </ul>
-          <ul class="navbar-nav">
+          {% if current_user.is_authenticated %}
+          <ul class="navbar-nav my-auto">
             <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('login_page') }}"> Login</a>    
+              <div class="d-flex align-items-center">
+                <p class="pr-1 m-0 text-success font-weight-bolder">{{ current_user.prettier_budget }}</p>
+                <img style="height: 1.5rem" src="https://image.flaticon.com/icons/png/512/3213/3213595.png"/>    
+              </div>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('register_page') }}"> Register</a>    
+              <p class="nav-link m-0" >Welcome {{current_user.username }}</p>    
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Logout</a>    
             </li>
           </ul>
+          {% else %}
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('login_page') }}"> Login</a>    
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('register_page') }}"> Register</a>    
+              </li>
+            </ul>
+          {% endif %}
+
         </div>
       </nav>
       {% with messages = get_flashed_messages(with_categories=true) %}
