@@ -1,0 +1,35 @@
+<!-- Modal -->
+<div class="modal fade" id="Modal-MoreInfo-{{ movie.id }}" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content text-light bg-dark">
+      <div class="modal-header">
+        <h5 class="modal-title mx-auto" id="exampleModalLabel">{{ movie.name }}</h5>
+      </div>
+      <div class="modal-body">
+        {{ movie.description }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="Modal-PurchaseConfirm-{{ movie.id }}" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content text-light bg-dark">
+      <div class="modal-header">
+        <h5 class="modal-title mx-auto" id="exampleModalLabel">{{ movie.name }}</h5>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to buy <b>{{movie.name}}</b> of <b>{{movie.director}}</b> ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

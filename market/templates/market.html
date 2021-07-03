@@ -1,39 +1,59 @@
 {% extends 'base.html' %}
 {% block title %}
-  Market Page
+Market Page
 {%endblock%}
 
 {% block content %}
-<div class="container">
-  <div class="table-responsive  mt-5">
-      <table class="table">
-            <thead class="thead-dark">
-                <tr class="text-center">
-                    <th scope="col">ID</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Box Office</th>
-                    <th scope="col">Director</th>
-                    <th scope="col">Options</th>
-                </tr>
-            </thead>
+<div class="container-fluid">
+  <div class="row  mt-5">
+    <div class="col-8">
+      <h2>Available Items on the Market</h2>
+      <p>Click on one of the items to star buying</p>
+      <br>
+      <div class="table-responsive">
+        <table class="table">
+          <thead class="thead-dark">
+            <tr class="text-center">
+              <th scope="col">ID</th>
+              <th scope="col">Name</th>
+              <th scope="col">Box Office</th>
+              <th scope="col">Director</th>
+              <th scope="col">Options</th>
+            </tr>
+          </thead>
 
-           <tbody class="text-center">
-                {% for movie in movies %}
-                  <tr>
-                      <th scope="row">{{movie.id}}</th>
-                      <td>{{movie.name}}</td>
-                      <td>${{movie.box_office}}</td>
-                      <td>{{movie.director}}</td>
-                      <td>
-                        
-                        <button type="button" class="btn btn-outline-info">More Info</button>
-                        <button type="button" class="btn btn-outline-success m-1">Rent movie</button>
-                        
-                      </td>
-                  </tr>
-                {% endfor %}
-            </tbody>
-      </table>
+          <tbody class="text-center">
+            {% for movie in movies %}
+            {% include 'includes/items_modals.html' %}
+            <tr>
+              <th scope="row">{{movie.id}}</th>
+              <td>{{movie.name}}</td>
+              <td>${{movie.box_office}}</td>
+              <td>{{movie.director}}</td>
+              <td>
+
+                <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#Modal-MoreInfo-{{ movie.id }}">
+                  More Info
+                </button>
+                <button type="button" class="btn btn-outline-success btn-block mt-1" data-toggle="modal" data-target="#Modal-PurchaseConfirm-{{ movie.id }}">
+                  Purchase
+                </button>
+
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="col-4">
+      <h2>Owned Items</h2>
+      <p>Click on sell Item, to put an Item back to the Market</p>
+      <br>
+    </div>
   </div>
+
 </div>
+
 {% endblock %}
