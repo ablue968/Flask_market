@@ -15,12 +15,12 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(length=30), nullable=False, unique=True)
     email = db.Column(db.String(length=50), nullable=False, unique=True)
     password_hash = db.Column(db.String(length=60), nullable=False)
-    budget = db.Column(db.Integer(), nullable=False, default=5)
+    budget = db.Column(db.Integer(), nullable=False, default=5000)
     movies = db.relationship('Movie', backref='owned_user', lazy=True)
 
     @property
     def prettier_budget(self):
-        if len(str(self.budget)) >= 4:
+        if len(str(self.budget)) >= 6:
             return f'{str(self.budget)[:-3], str(self.budget[-3:])}€'
         
         return f"{self.budget}€"
@@ -36,6 +36,9 @@ class User(db.Model, UserMixin):
     def check_password_correction(self,attempted_password):
         return bcrypt.check_password_hash(self.password_hash, attempted_password)
 
+    def can_purchase(self, item_obj):
+        return self.budget >= item_obj.rent_price
+
 
 
 class Movie(db.Model):
@@ -44,8 +47,14 @@ class Movie(db.Model):
     box_office = db.Column(db.Integer(), nullable=False)
     director = db.Column(db.String(length=12), nullable=False)
     description = db.Column(db.String(length=1024), nullable=False, unique=True)
+    rent_price = db.Column(db.Integer(), nullable= False)
     owner = db.Column(db.Integer(), db.ForeignKey('user.id'))
 
 
     def __repr__(self):
         return f'Movie: {self.name}'
+
+    def buy(self, user):
+        self.owner = user.id
+        user.budget -= self.rent_price
+        db.session.commit()

@@ -18,6 +18,7 @@ Market Page
               <th scope="col">Name</th>
               <th scope="col">Box Office</th>
               <th scope="col">Director</th>
+              <th scope="col">Rent Price</th>
               <th scope="col">Options</th>
             </tr>
           </thead>
@@ -30,6 +31,7 @@ Market Page
               <td>{{movie.name}}</td>
               <td>${{movie.box_office}}</td>
               <td>{{movie.director}}</td>
+              <td>{{movie.rent_price}}</td>
               <td>
 
                 <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#Modal-MoreInfo-{{ movie.id }}">

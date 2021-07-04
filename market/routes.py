@@ -1,9 +1,9 @@
 from market import app
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, request
 from market.models import Movie, User
-from market.forms import RegisterForm, LoginForm
+from market.forms import RegisterForm, LoginForm, PurchaseForm
 from market import db
-from flask_login import login_user, logout_user,  login_required
+from flask_login import login_user, logout_user,  login_required, current_user
 
 
 @app.route('/')
@@ -11,16 +11,34 @@ from flask_login import login_user, logout_user,  login_required
 def home_page():
     return render_template('home.html')
 
-@app.route('/market')
+@app.route('/market', methods=['GET','POST'])
 @login_required
 def market_page():
-    movies = Movie.query.all()
+    purchase_form = PurchaseForm()
 
-    return render_template('market.html', movies = movies)
+    #How to purchase!
+    if request.method == 'POST':
+        purchased_item = request.form.get('purchased_item')
+        p_item_object = Movie.query.filter_by(name=purchased_item).first()
+        if p_item_object:
+            if current_user.can_purchase(p_item_object):
+                p_item_object.buy(current_user)
+                flash(f'Congratulations, you have purshed {p_item_object.name} for {p_item_object.rent_price}€', category='success')
+            else:
+                flash(f"Unfortunately, you don't have enough money to purchase {p_item_object.name}", category='danger')
+        return redirect(url_for('market_page'))
+
+    if request.method =='GET':
+        #this is to ensure there is only 1 owner, if we already have one
+        #then the movie is removed from the list
+        movies = Movie.query.filter_by(owner=None)
+        return render_template('market.html', movies = movies, purchase_form=purchase_form)
 
 @app.route('/register', methods=['GET','POST'])
 def register_page():
     form = RegisterForm()
+
+    #creating user!
     if form.validate_on_submit():
         user_to_create= User(
             username=form.username.data , 
@@ -44,6 +62,7 @@ def register_page():
 @app.route('/login', methods=['GET','POST'])
 def login_page():
     form = LoginForm()
+    #checking user for login
     if form.validate_on_submit():
 
         attempted_user = User.query.filter_by(username = form.username.data).first()

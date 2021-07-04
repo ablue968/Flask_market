@@ -1,4 +1,4 @@
-<!-- Modal -->
+<!-- INFO Modal -->
 <div class="modal fade" id="Modal-MoreInfo-{{ movie.id }}" tabindex="-1" role="dialog"
   aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -16,7 +16,7 @@
   </div>
 </div>
 
-<!-- Modal -->
+<!-- PURCHASE Modal -->
 <div class="modal fade" id="Modal-PurchaseConfirm-{{ movie.id }}" tabindex="-1" role="dialog"
   aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -25,7 +25,15 @@
         <h5 class="modal-title mx-auto" id="exampleModalLabel">{{ movie.name }}</h5>
       </div>
       <div class="modal-body">
-        Are you sure you want to buy <b>{{movie.name}}</b> of <b>{{movie.director}}</b> ?
+        <form method="POST">
+          {{ purchase_form.hidden_tag() }}
+          <h4 class="text-center">Are you sure you want to buy <b>"{{movie.name}}"</b> of <b>"{{movie.director}}"</b> ?</h4>
+          <br>
+          <h6 class="text-center"> By clicking Purchase, you will purchase this item.</h6>
+          <br>
+          <input id="purchased_item" name="purchased_item" type="hidden" value="{{movie.name}}">
+          {{ purchase_form.submit(class="btn btn-outline-success btn-block") }}  
+        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
