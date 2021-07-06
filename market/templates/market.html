@@ -53,9 +53,32 @@ Market Page
       <h2>Owned Items</h2>
       <p>Click on sell Item, to put an Item back to the Market</p>
       <br>
+      <div class="row">
+        {% for owned_movie in owned_movies %}
+        {% include 'includes/selling_modal.html' %}
+
+          <div class="col-md-6">
+            <div class="card text-center bd-dark mb-2">
+              <div class="card-body">
+                <h5 class="card-title">{{ owned_movie.name }}</h5>
+                <button type='button' class="btn btn-outline-danger mb-2" data-toggle="modal" data-target="#Modal-SellingConfirm-{{ owned_movie.id }}">
+                  Sell this Item
+                </button>
+                <p class="card-text">
+                  <strong>By selling this, you will be getting +{{ owned_movie.rent_price}}€</strong>
+                </p>
+              </div>
+            </div>
+          </div>          
+        
+        {%endfor%}
+      </div>
     </div>
   </div>
 
 </div>
 
 {% endblock %}
+
+
+<!--owned_movie.rent_price - (0.3 * owned_movie.rent_price)|round|int -->

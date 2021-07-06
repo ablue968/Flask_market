@@ -1,0 +1,32 @@
+<!-- SELLING Modal -->
+<div class="modal fade" id="Modal-SellingConfirm-{{ owned_movie.id }}" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content text-light bg-dark">
+      <div class="modal-header">
+        <h5 class="modal-title mx-auto" id="exampleModalLabel">{{ owned_movie.name }}</h5>
+      </div>
+      <div class="modal-body">
+        <form method="POST">
+          {{ selling_form.hidden_tag() }}
+          <h4 class="text-center">Are you sure you want to sell <b>"{{owned_movie.name}}"</b> of <b>"{{owned_movie.director}}"</b> ?</h4>
+          <br>
+          <h6 class="text-center"> 
+            By clicking Selling, you will sell this item by 
+            <strong>
+              
+              {{ owned_movie.rent_price  }}€ 
+
+            </strong>, and it will up on the market again.
+          </h6>
+          <br>
+          <input id="sold_item" name="sold_item" type="hidden" value="{{owned_movie.name}}">
+          {{ selling_form.submit(class="btn btn-outline-danger btn-block") }}  
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

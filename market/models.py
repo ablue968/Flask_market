@@ -33,11 +33,16 @@ class User(db.Model, UserMixin):
     def password(self, plain_text_password):
         self.password_hash = bcrypt.generate_password_hash(plain_text_password).decode('utf-8')
 
+    #In here I define all the functions to do:
+
     def check_password_correction(self,attempted_password):
         return bcrypt.check_password_hash(self.password_hash, attempted_password)
 
     def can_purchase(self, item_obj):
         return self.budget >= item_obj.rent_price
+
+    def can_sell(self, item_obj):
+        return item_obj in self.movies
 
 
 
@@ -57,4 +62,9 @@ class Movie(db.Model):
     def buy(self, user):
         self.owner = user.id
         user.budget -= self.rent_price
+        db.session.commit()
+
+    def sell(self, user):
+        self.owner = None
+        user.budget += self.rent_price
         db.session.commit()

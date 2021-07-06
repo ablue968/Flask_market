@@ -1,7 +1,7 @@
 from market import app
 from flask import render_template, redirect, url_for, flash, request
 from market.models import Movie, User
-from market.forms import RegisterForm, LoginForm, PurchaseForm
+from market.forms import RegisterForm, LoginForm, PurchaseForm, SellForm
 from market import db
 from flask_login import login_user, logout_user,  login_required, current_user
 
@@ -14,7 +14,9 @@ def home_page():
 @app.route('/market', methods=['GET','POST'])
 @login_required
 def market_page():
+
     purchase_form = PurchaseForm()
+    selling_form = SellForm()
 
     #How to purchase!
     if request.method == 'POST':
@@ -26,13 +28,32 @@ def market_page():
                 flash(f'Congratulations, you have purshed {p_item_object.name} for {p_item_object.rent_price}€', category='success')
             else:
                 flash(f"Unfortunately, you don't have enough money to purchase {p_item_object.name}", category='danger')
+        
+    #How to sell!
+    if request.method == 'POST':
+        print('Posting to sell')
+        sold_item = request.form.get('sold_item')
+        s_item_object = Movie.query.filter_by(name=sold_item).first()
+        if s_item_object:
+            print('verified s_item_object')
+            if current_user.can_sell(s_item_object):
+                s_item_object.sell(current_user)
+                flash(f'Congratulations, you have sold {s_item_object.name} for {s_item_object.rent_price}€', category='success')
+            else:
+                flash(f"Unfortunately, something went wrong selling {s_item_object.name}", category='danger')
+        
         return redirect(url_for('market_page'))
 
     if request.method =='GET':
         #this is to ensure there is only 1 owner, if we already have one
         #then the movie is removed from the list
         movies = Movie.query.filter_by(owner=None)
-        return render_template('market.html', movies = movies, purchase_form=purchase_form)
+
+        #this second one is to ensure that if an user own any item, we could 
+        # identify him over
+        owned_movies = Movie.query.filter_by(owner=current_user.id)
+
+        return render_template('market.html', movies = movies, purchase_form=purchase_form, owned_movies=owned_movies, selling_form=selling_form)
 
 @app.route('/register', methods=['GET','POST'])
 def register_page():
